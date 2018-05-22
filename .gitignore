@@ -1,0 +1,27 @@
+.DS_Store
+Thumbs.db
+CMakeCache.txt
+CMakeFiles/
+*~. DS_Store
+*.swp
+*~.nib
+build/
+*.pbxuser
+xcuserdata/
+*.perspective
+*.perspectivev3
+*.mode1v3
+*.mode2v3
+jni.cpp.out
+*.directory
+*.kdev4
+*.kdev_include_paths
+*.kate-swp
+*.Po
+*.Plo
+*.log
+
+#NetBeans
+nbproject/
+
+preferences.json
