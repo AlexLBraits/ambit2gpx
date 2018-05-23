@@ -3,7 +3,7 @@
 #include <math.h>
 #include <string.h>
 
-#include "../libambit/libambit.h"
+#include <libambit.h>
 
 /////////////////////////////////////////////////////////////
 char time_string[32] = {0};
@@ -32,10 +32,33 @@ int main(int argc, char *argv[])
     ambit_device_info_t info;
     ambit_device_status_t status;
     ambit_personal_settings_t settings;
-//    time_t current_time;
-//    struct tm *local_time;
 
-    if (argc > 1) time_stamp = argv[1];
+    if (argc > 1)
+    {
+        if (strcmp(argv[1], "--help") == 0 || strcmp(argv[1], "/?") == 0)
+        {
+            fprintf(stderr, 
+                "\n"
+                "%s - Console program, that read Activity data from Suunto Ambit over USB and write it as gpx-file. Replacement for Moveslink2, that not work without connection to Movescount.\n\n"
+                "Usage:\n"
+                "  1. Connect Suunto Ambit watch to your computer using USB.\n"
+                "  2. Run the program %s without parameters.\n"
+                "     You will receive a list of Activities in the form: \"Activity type name\" UTC-Date-time\n"
+                "  3. Run the program %s with UTC-Date-time of the Activity you need as parameters.\n"
+                "     You will receive information about selected Activity in the format of the gpx.\n"
+                "\n"
+                ,
+                argv[0],
+                argv[0],
+                argv[0]
+            );
+            return 0;
+        }
+        else 
+        {
+            time_stamp = argv[1];
+        }
+    }
 
     if ((ambit_object = libambit_detect()) != NULL) {
         libambit_device_info_get(ambit_object, &info);
@@ -55,14 +78,6 @@ int main(int argc, char *argv[])
             else {
                 fprintf(stderr, "Failed to read status\n");
             }
-
-            // current_time = time(NULL);
-            // local_time = localtime(&current_time);
-            //if (libambit_date_time_set(ambit_object, local_time) == 0) {
-            //}
-            //else {
-            //    printf("Failed to set date and time\n");
-            //}
 
             libambit_log_read(ambit_object, log_skip_cb, log_data_cb, NULL, ambit_object);
         }
@@ -250,37 +265,6 @@ void process_ambit_log_sample_type_position(ambit_log_sample_t* sample)
 void write_track_point()
 {
     if (latitude == 0.0 && longitude == 0.0) return;
-
-    // printf("\
-    //         <trkpt lat=\"%f\" lon=\"%f\">\n\
-    //             <ele>%d</ele>\n\
-    //             <time>%s</time>\n\
-    //             <extensions>\n\
-    //                 <gpxdata:hr>%d</gpxdata:hr>\n\
-    //                 <gpxdata:temp>%f</gpxdata:temp>\n\
-    //                 <gpxdata:distance>%f</gpxdata:distance>\n\
-    //                 <gpxdata:altitude>%d</gpxdata:altitude>\n\
-    //                 <gpxdata:energy>%f</gpxdata:energy>\n\
-    //                 <gpxdata:seaLevelPressure>%d</gpxdata:seaLevelPressure>\n\
-    //                 <gpxdata:speed>%f</gpxdata:speed>\n\
-    //                 <gpxdata:verticalSpeed>%f</gpxdata:verticalSpeed>\n\
-    //             </extensions>\n\
-    //         </trkpt>\n",
-    //         latitude,
-    //         longitude,
-    //         (int)elevation,
-    //         time_string
-    //         ///////////////////
-    //         /// extensions
-    //         , hr
-    //         , temperature
-    //         , distance
-    //         , (int)elevation
-    //         , energy
-    //         , (int)sea_level_pressure
-    //         , speed
-    //         , vertical_speed
-    //         );
 
     printf("\
             <trkpt lat=\"%f\" lon=\"%f\">\n\
