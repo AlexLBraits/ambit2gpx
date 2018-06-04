@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
 void print_header(ambit_log_header_t *log_header)
 {
     printf("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n\
-<gpx creator=\"Ambit2GPX\" version=\"1.1\"\n\
+<gpx creator=\"Ambit2GPX - Suunto Ambit2 Moveslink replacement\" version=\"1.1\"\n\
     xmlns=\"http://www.topografix.com/GPX/1/1\"\n\
     xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd\"\n\
     xmlns:gpxtpx=\"http://www.garmin.com/xmlschemas/TrackPointExtension/v1\"\n\
@@ -275,9 +275,11 @@ void write_track_point()
                         <gpxtpx:hr>%d</gpxtpx:hr>\n\
                     </gpxtpx:TrackPointExtension>\n\
                     <gpxdata:temp>%d</gpxdata:temp>\n\
+                    <gpxdata:distance>%d</gpxdata:distance>\n\
                     <gpxdata:altitude>%.1f</gpxdata:altitude>\n\
                     <gpxdata:energy>%.1f</gpxdata:energy>\n\
-                    <gpxdata:seaLevelPressure>%d</gpxdata:seaLevelPressure>\n\
+                    <gpxdata:speed>%f</gpxdata:speed>\n\
+                    <gpxdata:verticalSpeed>%f</gpxdata:verticalSpeed>\n\
                 </extensions>\n\
             </trkpt>\n",
             latitude,
@@ -288,9 +290,11 @@ void write_track_point()
             /// extensions
             , hr
             , (int)temperature
+            , (int)distance
             , elevation
             , energy
-            , sea_level_pressure
+            , speed
+            , vertical_speed
             );
 }
 
