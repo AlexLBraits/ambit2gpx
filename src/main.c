@@ -14,7 +14,7 @@ double elevation = 0;
 double distance = 0;
 double speed = 0;
 double vertical_speed = 0;
-double sea_level_pressure = 0;
+int sea_level_pressure = 0;
 uint8_t hr = 0;
 double energy = 0;
 double temperature = 0;
@@ -272,9 +272,12 @@ void write_track_point()
                 <time>%s</time>\n\
                 <extensions>\n\
                     <gpxtpx:TrackPointExtension>\n\
-                        <gpxtpx:atemp>%d</gpxtpx:atemp>\n\
                         <gpxtpx:hr>%d</gpxtpx:hr>\n\
                     </gpxtpx:TrackPointExtension>\n\
+                    <gpxdata:temp>%d</gpxdata:temp>\n\
+                    <gpxdata:altitude>%.1f</gpxdata:altitude>\n\
+                    <gpxdata:energy>%.1f</gpxdata:energy>\n\
+                    <gpxdata:seaLevelPressure>%d</gpxdata:seaLevelPressure>\n\
                 </extensions>\n\
             </trkpt>\n",
             latitude,
@@ -283,8 +286,11 @@ void write_track_point()
             time_string
             ///////////////////
             /// extensions
-            , (int)temperature
             , hr
+            , (int)temperature
+            , elevation
+            , energy
+            , sea_level_pressure
             );
 }
 
